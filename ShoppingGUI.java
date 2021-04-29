@@ -6,7 +6,23 @@
 package Store;
 
 //import Shop.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import org.json.JSONObject;
 
 //about of the menubar will have time of each shop.
 
@@ -26,6 +42,8 @@ public class ShoppingGUI extends javax.swing.JFrame {
     String tech[] = {"Camera : $400", "Headphones : $150", "Microphone : $100"};
     String home[] = {"Vase : $70", "Coffee Table : $300", "Chair : $149"};
     String beauty[] = {"Mascara : $25", "Cleanser : $35", "Serum : $249"};
+    
+    int customerRating = 0;
     
     //JList<String> myList = new JList<String>(tech);
     //jListB = new JList(beauty.toArray());
@@ -52,6 +70,7 @@ public class ShoppingGUI extends javax.swing.JFrame {
         jLabelItemsT = new javax.swing.JLabel();
         jButtonRateT = new javax.swing.JButton();
         jButtonAddT = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabelStore = new javax.swing.JLabel();
         jLabelItemsB = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -62,6 +81,10 @@ public class ShoppingGUI extends javax.swing.JFrame {
         jButtonHome = new javax.swing.JButton();
         jButtonBeauty = new javax.swing.JButton();
         jButtonInfo = new javax.swing.JButton();
+        jRadioButtonEng = new javax.swing.JRadioButton();
+        jRadioButtonKor = new javax.swing.JRadioButton();
+        jRadioButtonInd = new javax.swing.JRadioButton();
+        jLabelChgLg = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuTech = new javax.swing.JMenu();
         jMenuItemAbtTech = new javax.swing.JMenuItem();
@@ -77,13 +100,14 @@ public class ShoppingGUI extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(jListT);
 
-        jButtonInfoT.setText("Get Info");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Store/Bundle"); // NOI18N
+        jButtonInfoT.setText(bundle.getString("ShoppingGUI.jButtonInfoT.text")); // NOI18N
 
-        jLabelItemsT.setText("Available Items:");
+        jLabelItemsT.setText(bundle.getString("ShoppingGUI.jLabelItemsT.text")); // NOI18N
 
-        jButtonRateT.setText("Rate Item");
+        jButtonRateT.setText(bundle.getString("ShoppingGUI.jButtonRateT.text")); // NOI18N
 
-        jButtonAddT.setText("Add to Cart");
+        jButtonAddT.setText(bundle.getString("ShoppingGUI.jButtonAddT.text")); // NOI18N
 
         javax.swing.GroupLayout jPanelTechLayout = new javax.swing.GroupLayout(jPanelTech);
         jPanelTech.setLayout(jPanelTechLayout);
@@ -131,42 +155,75 @@ public class ShoppingGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabelStore.setText("Select a Store:");
+        jLabelStore.setText(bundle.getString("ShoppingGUI.jLabelStore.text")); // NOI18N
 
-        jLabelItemsB.setText("Available Items:");
+        jLabelItemsB.setText(bundle.getString("ShoppingGUI.jLabelItemsB.text")); // NOI18N
 
         jScrollPane2.setViewportView(jListProducts);
 
-        jButtonTech.setText("Techie Tues");
+        jButtonTech.setText(bundle.getString("ShoppingGUI.jButtonTech.text")); // NOI18N
         jButtonTech.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonTechActionPerformed(evt);
             }
         });
 
-        jButtonAdd.setText("Add to Cart");
+        jButtonAdd.setText(bundle.getString("ShoppingGUI.jButtonAdd.text")); // NOI18N
 
-        jButtonRate.setText("Rate Item");
+        jButtonRate.setText(bundle.getString("ShoppingGUI.jButtonRate.text")); // NOI18N
+        jButtonRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRateActionPerformed(evt);
+            }
+        });
 
-        jButtonHome.setText("DecoratIn'");
+        jButtonHome.setText(bundle.getString("ShoppingGUI.jButtonHome.text")); // NOI18N
         jButtonHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonHomeActionPerformed(evt);
             }
         });
 
-        jButtonBeauty.setText("Coco smetics");
+        jButtonBeauty.setText(bundle.getString("ShoppingGUI.jButtonBeauty.text")); // NOI18N
         jButtonBeauty.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonBeautyActionPerformed(evt);
             }
         });
 
-        jButtonInfo.setText("Get Info");
+        jButtonInfo.setText(bundle.getString("ShoppingGUI.jButtonInfo.text")); // NOI18N
+        jButtonInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInfoActionPerformed(evt);
+            }
+        });
 
-        jMenuTech.setText("Technology");
+        jRadioButtonEng.setText(bundle.getString("ShoppingGUI.jRadioButtonEng.text")); // NOI18N
+        jRadioButtonEng.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonEngActionPerformed(evt);
+            }
+        });
 
-        jMenuItemAbtTech.setText("About");
+        jRadioButtonKor.setText(bundle.getString("ShoppingGUI.jRadioButtonKor.text")); // NOI18N
+        jRadioButtonKor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonKorActionPerformed(evt);
+            }
+        });
+
+        jRadioButtonInd.setText(bundle.getString("ShoppingGUI.jRadioButtonInd.text")); // NOI18N
+        jRadioButtonInd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonIndActionPerformed(evt);
+            }
+        });
+
+        jLabelChgLg.setText(bundle.getString("ShoppingGUI.jLabelChgLg.text")); // NOI18N
+
+        jMenuTech.setText(bundle.getString("ShoppingGUI.jMenuTech.text")); // NOI18N
+
+        jMenuItemAbtTech.setText(bundle.getString("ShoppingGUI.jMenuItemAbtTech.text")); // NOI18N
         jMenuItemAbtTech.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemAbtTechActionPerformed(evt);
@@ -176,16 +233,16 @@ public class ShoppingGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuTech);
 
-        jMenuHome.setText("Home and Kitchen");
+        jMenuHome.setText(bundle.getString("ShoppingGUI.jMenuHome.text")); // NOI18N
 
-        jMenuItemAbtHome.setText("About");
+        jMenuItemAbtHome.setText(bundle.getString("ShoppingGUI.jMenuItemAbtHome.text")); // NOI18N
         jMenuHome.add(jMenuItemAbtHome);
 
         jMenuBar1.add(jMenuHome);
 
-        jMenuBeauty.setText("Beauty");
+        jMenuBeauty.setText(bundle.getString("ShoppingGUI.jMenuBeauty.text")); // NOI18N
 
-        jMenuItemAbtBeauty.setText("About");
+        jMenuItemAbtBeauty.setText(bundle.getString("ShoppingGUI.jMenuItemAbtBeauty.text")); // NOI18N
         jMenuBeauty.add(jMenuItemAbtBeauty);
 
         jMenuBar1.add(jMenuBeauty);
@@ -201,6 +258,9 @@ public class ShoppingGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
+                        .addComponent(jLabelChgLg))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(jButtonTech)
                         .addGap(37, 37, 37)
                         .addComponent(jButtonHome)
@@ -210,16 +270,19 @@ public class ShoppingGUI extends javax.swing.JFrame {
                     .addComponent(jLabelStore)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(jButtonInfo))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonRate, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButtonAdd, javax.swing.GroupLayout.Alignment.TRAILING))))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addComponent(jButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonRate, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jRadioButtonEng)
+                        .addGap(41, 41, 41)
+                        .addComponent(jRadioButtonKor)
+                        .addGap(37, 37, 37)
+                        .addComponent(jRadioButtonInd)))
+                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonAdd, jButtonInfo, jButtonRate});
@@ -238,17 +301,21 @@ public class ShoppingGUI extends javax.swing.JFrame {
                 .addComponent(jLabelItemsB)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jButtonInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonRate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(76, 76, 76))))
+                        .addComponent(jButtonInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonRate, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                        .addGap(63, 63, 63)))
+                .addComponent(jLabelChgLg)
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButtonInd)
+                    .addComponent(jRadioButtonKor)
+                    .addComponent(jRadioButtonEng))
+                .addGap(10, 10, 10))
         );
 
         pack();
@@ -273,11 +340,10 @@ public class ShoppingGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         DefaultListModel DLM = new DefaultListModel();
-        DLM.addElement("Mascara : $25");
-        DLM.addElement("Cleanser : $35");
-        DLM.addElement("Serum : $249");
+        DLM.addElement("Vase : $70");
+        DLM.addElement("Coffee Table : $300");
+        DLM.addElement("Chair : $149");
         jListProducts.setModel(DLM);
-        
         
     }//GEN-LAST:event_jButtonHomeActionPerformed
 
@@ -285,12 +351,264 @@ public class ShoppingGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         DefaultListModel DLM = new DefaultListModel();
-        DLM.addElement("Vase : $70");
-        DLM.addElement("Coffee Table : $300");
-        DLM.addElement("Chair : $149");
+        DLM.addElement("Mascara : $25");
+        DLM.addElement("Cleanser : $35");
+        DLM.addElement("Serum : $249");
         jListProducts.setModel(DLM);
+
     }//GEN-LAST:event_jButtonBeautyActionPerformed
 
+    private void jButtonInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInfoActionPerformed
+        // TODO add your handling code here:
+        
+        HashMap<Integer, String> currencyCodes = new HashMap<Integer,String>();
+   
+        currencyCodes.put(1, "USD");
+        currencyCodes.put(2, "KRW");
+        currencyCodes.put(3, "IDR");
+        
+        String fromCode, toCode;
+        double amount;
+        int selectIndex = 0;
+        
+        String s = (String) jListProducts.getSelectedValue();
+       // System.out.println(s);
+        
+        selectIndex = jListProducts.getSelectedIndex();
+        //System.out.println(selectIndex);
+        if (selectIndex == 0){
+            if (s.startsWith("Cam")){
+                
+//                fromCode = String.valueOf(1);
+//                amount = 400;
+                System.out.println("This is a simple camera that is good for everyday use!");
+                System.out.println("Price:");
+                System.out.println("USD: $400.00");
+                System.out.println("KRW: ₩443,340.00");
+                System.out.println("IDR: Rp.5,771,900.00");
+//                toCode = String.valueOf(2);
+//                
+//                try {
+//                    sendHttpGETRequest(fromCode, toCode, amount);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(ShoppingGUI.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+            }
+            else if (s.startsWith("Vas")){
+                
+                System.out.println("This vase is beautifully imported from Indonesia.");
+                System.out.println("Price:");
+                System.out.println("USD: $70.00");
+                System.out.println("KRW: ₩77,593.25");
+                System.out.println("IDR: Rp.1,010,082.50");
+             
+            }
+            else if(s.startsWith("Mas")){
+               
+                System.out.println("This mascara is smudgeproof! Guaranteed to stay all day!");
+                System.out.println("Price:");
+                System.out.println("USD: $25.00");
+                System.out.println("KRW: ₩27,708.75");
+                System.out.println("IDR: Rp.360,758.75");
+            }
+        }
+        else if (selectIndex == 1){
+            if (s.startsWith("Head")){
+                System.out.println("These headphones have surround sound system.");
+                System.out.println("Price:");
+                System.out.println("USD: $150.00");
+                System.out.println("KRW: ₩166,252.50");
+                System.out.println("IDR: Rp.2,164,552.50");
+ 
+            }
+            else if (s.startsWith("Cof")){
+                System.out.println("This coffee table is made from mahogany.");
+                System.out.println("Price:");
+                System.out.println("USD: $300.00");
+                System.out.println("KRW: ₩332,505.00");
+                System.out.println("IDR: Rp.4,329,105.00");
+            }
+            else if(s.startsWith("Clean")){
+                
+                System.out.println("Removes all debris. 100% Hypoallergenic.");
+                System.out.println("Price:");
+                System.out.println("USD: $35.00");
+                System.out.println("KRW: ₩38,790.50");
+                System.out.println("IDR: Rp.505,062.25");
+            }
+        }
+        else if (selectIndex == 2){
+            if (s.startsWith("Micro")){
+                
+                System.out.println("This microphone is perfect for vlogging.");
+                System.out.println("Price:");
+                System.out.println("USD: $100.00");
+                System.out.println("KRW: ₩77,593.25");
+                System.out.println("IDR: Rp.1,442,975.00");
+            }
+            else if (s.startsWith("Cha")){
+                System.out.println("This chair is perfect for your home office. Adjustable seats.");
+                System.out.println("Price:");
+                System.out.println("USD: $149.00");
+                System.out.println("KRW: ₩77,593.25");
+                System.out.println("IDR: Rp.2,150,107.25");
+               
+            }
+            else if(s.startsWith("Ser")){
+                System.out.println("This serum will rejuvenate your skin.");
+                System.out.println("Price:");
+                System.out.println("USD: $249.00");
+                System.out.println("KRW: ₩77,593.25");
+                System.out.println("IDR: Rp.3,593,132.25");
+            }
+        }
+        
+//        jListProducts.getSelectionModel().addListSelectionListener (e -> {
+//            fromCode = jListProducts.getSelectedValue();
+//        });
+//        //fromCode = currencyCodes.get(jListProducts.getSelectedValue());
+//        System.out.println(fromCode);
+        
+    }//GEN-LAST:event_jButtonInfoActionPerformed
+
+    private void jButtonRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRateActionPerformed
+        // TODO add your handling code here:
+        
+        System.out.println("Please rate this item from 1 (low) - 5 (high): ");
+        Scanner scanner = new Scanner(System.in);
+        customerRating = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Thank you for Rating! You have given it a rating of: " + customerRating);
+        
+    }//GEN-LAST:event_jButtonRateActionPerformed
+
+    private void groupButton(){
+        ButtonGroup bg1 = new ButtonGroup();
+        bg1.add(jRadioButtonEng);
+        bg1.add(jRadioButtonKor);
+        bg1.add(jRadioButtonInd);
+    }
+    
+    private void jRadioButtonKorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonKorActionPerformed
+        // TODO add your handling code here:
+        
+        Locale locale_in_ID = new Locale("ko", "KR");
+        ResourceBundle resourceBundleKR = ResourceBundle.getBundle("Store/Bundle_ko_KR");
+        
+        jLabelStore.setText(resourceBundleKR.getString("ShoppingGUI.jLabelStore.text"));
+        jLabelItemsB.setText(resourceBundleKR.getString("ShoppingGUI.jLabelItemsB.text"));
+        jLabelChgLg.setText(resourceBundleKR.getString("ShoppingGUI.jLabelChgLg.text"));
+        
+        jButtonTech.setText(resourceBundleKR.getString("ShoppingGUI.jButtonTech.text"));
+        jButtonAdd.setText(resourceBundleKR.getString("ShoppingGUI.jButtonAdd.text"));
+        jButtonRate.setText(resourceBundleKR.getString("ShoppingGUI.jButtonRate.text"));
+        jButtonHome.setText(resourceBundleKR.getString("ShoppingGUI.jButtonHome.text"));
+        jButtonBeauty.setText(resourceBundleKR.getString("ShoppingGUI.jButtonBeauty.text"));
+        jButtonInfo.setText(resourceBundleKR.getString("ShoppingGUI.jButtonInfo.text"));
+        
+        jRadioButtonEng.setText(resourceBundleKR.getString("ShoppingGUI.jRadioButtonEng.text"));
+        jRadioButtonKor.setText(resourceBundleKR.getString("ShoppingGUI.jRadioButtonKor.text"));
+        jRadioButtonInd.setText(resourceBundleKR.getString("ShoppingGUI.jRadioButtonInd.text"));
+        
+        jMenuBeauty.setText(resourceBundleKR.getString("ShoppingGUI.jMenuBeauty.text"));
+        jMenuHome.setText(resourceBundleKR.getString("ShoppingGUI.jMenuHome.text"));
+        jMenuTech.setText(resourceBundleKR.getString("ShoppingGUI.jMenuTech.text"));
+        jMenuItemAbtBeauty.setText(resourceBundleKR.getString("ShoppingGUI.jMenuItemAbtBeauty.text"));
+        jMenuItemAbtHome.setText(resourceBundleKR.getString("ShoppingGUI.jMenuItemAbtHome.text"));
+        jMenuItemAbtTech.setText(resourceBundleKR.getString("ShoppingGUI.jMenuItemAbtTech.text"));
+    }//GEN-LAST:event_jRadioButtonKorActionPerformed
+
+    private void jRadioButtonIndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonIndActionPerformed
+        // TODO add your handling code here:
+        Locale locale_in_ID = new Locale("in", "ID");
+        ResourceBundle resourceBundleID = ResourceBundle.getBundle("Store/Bundle_in_ID");
+        
+        jLabelStore.setText(resourceBundleID.getString("ShoppingGUI.jLabelStore.text"));
+        jLabelItemsB.setText(resourceBundleID.getString("ShoppingGUI.jLabelItemsB.text"));
+        jLabelChgLg.setText(resourceBundleID.getString("ShoppingGUI.jLabelChgLg.text"));
+        
+        jButtonTech.setText(resourceBundleID.getString("ShoppingGUI.jButtonTech.text"));
+        jButtonAdd.setText(resourceBundleID.getString("ShoppingGUI.jButtonAdd.text"));
+        jButtonRate.setText(resourceBundleID.getString("ShoppingGUI.jButtonRate.text"));
+        jButtonHome.setText(resourceBundleID.getString("ShoppingGUI.jButtonHome.text"));
+        jButtonBeauty.setText(resourceBundleID.getString("ShoppingGUI.jButtonBeauty.text"));
+        jButtonInfo.setText(resourceBundleID.getString("ShoppingGUI.jButtonInfo.text"));
+        
+        jRadioButtonEng.setText(resourceBundleID.getString("ShoppingGUI.jRadioButtonEng.text"));
+        jRadioButtonKor.setText(resourceBundleID.getString("ShoppingGUI.jRadioButtonKor.text"));
+        jRadioButtonInd.setText(resourceBundleID.getString("ShoppingGUI.jRadioButtonInd.text"));
+        
+        jMenuBeauty.setText(resourceBundleID.getString("ShoppingGUI.jMenuBeauty.text"));
+        jMenuHome.setText(resourceBundleID.getString("ShoppingGUI.jMenuHome.text"));
+        jMenuTech.setText(resourceBundleID.getString("ShoppingGUI.jMenuTech.text"));
+        jMenuItemAbtBeauty.setText(resourceBundleID.getString("ShoppingGUI.jMenuItemAbtBeauty.text"));
+        jMenuItemAbtHome.setText(resourceBundleID.getString("ShoppingGUI.jMenuItemAbtHome.text"));
+        jMenuItemAbtTech.setText(resourceBundleID.getString("ShoppingGUI.jMenuItemAbtTech.text"));
+        
+        
+    }//GEN-LAST:event_jRadioButtonIndActionPerformed
+
+    private void jRadioButtonEngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonEngActionPerformed
+        // TODO add your handling code here:
+        
+        Locale locale_en_US = new Locale("en", "US");
+        ResourceBundle resourceBundleUS = ResourceBundle.getBundle("Store/bundle", locale_en_US);
+        
+        jLabelStore.setText(resourceBundleUS.getString("ShoppingGUI.jLabelStore.text"));
+        jLabelItemsB.setText(resourceBundleUS.getString("ShoppingGUI.jLabelItemsB.text"));
+        jLabelChgLg.setText(resourceBundleUS.getString("ShoppingGUI.jLabelChgLg.text"));
+        
+        jButtonTech.setText(resourceBundleUS.getString("ShoppingGUI.jButtonTech.text"));
+        jButtonAdd.setText(resourceBundleUS.getString("ShoppingGUI.jButtonAdd.text"));
+        jButtonRate.setText(resourceBundleUS.getString("ShoppingGUI.jButtonRate.text"));
+        jButtonHome.setText(resourceBundleUS.getString("ShoppingGUI.jButtonHome.text"));
+        jButtonBeauty.setText(resourceBundleUS.getString("ShoppingGUI.jButtonBeauty.text"));
+        jButtonInfo.setText(resourceBundleUS.getString("ShoppingGUI.jButtonInfo.text"));
+        
+        jRadioButtonEng.setText(resourceBundleUS.getString("ShoppingGUI.jRadioButtonEng.text"));
+        jRadioButtonKor.setText(resourceBundleUS.getString("ShoppingGUI.jRadioButtonKor.text"));
+        jRadioButtonInd.setText(resourceBundleUS.getString("ShoppingGUI.jRadioButtonInd.text"));
+        
+        jMenuBeauty.setText(resourceBundleUS.getString("ShoppingGUI.jMenuBeauty.text"));
+        jMenuHome.setText(resourceBundleUS.getString("ShoppingGUI.jMenuHome.text"));
+        jMenuTech.setText(resourceBundleUS.getString("ShoppingGUI.jMenuTech.text"));
+        jMenuItemAbtBeauty.setText(resourceBundleUS.getString("ShoppingGUI.jMenuItemAbtBeauty.text"));
+        jMenuItemAbtHome.setText(resourceBundleUS.getString("ShoppingGUI.jMenuItemAbtHome.text"));
+        jMenuItemAbtTech.setText(resourceBundleUS.getString("ShoppingGUI.jMenuItemAbtTech.text"));
+    }//GEN-LAST:event_jRadioButtonEngActionPerformed
+
+    //External Interface/API for Currency Converter
+    private static void sendHttpGETRequest(String fromCode, String toCode, double amount) throws MalformedURLException, IOException{
+        
+        DecimalFormat f = new DecimalFormat("00.00");
+        String GET_URL = "https://api.exchangeratesapi.io/latest?base=" + toCode + "&symbols=" + fromCode;
+        URL url = new URL(GET_URL);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestMethod("GET");
+        
+        int responseCode = httpURLConnection.getResponseCode();
+        
+        if((responseCode) == HttpURLConnection.HTTP_OK){
+            BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            
+            while((inputLine = in.readLine()) != null){
+                response.append(inputLine);
+                
+            }in.close();
+            
+            JSONObject obj = new JSONObject(response.toString());
+            Double exchangeRate = obj.getJSONObject("rates").getDouble(fromCode);
+         //   System.out.println(exchangeRate); //keep for debugging
+            System.out.println(obj.getJSONObject("rates"));
+            System.out.println(f.format(amount) + fromCode + " = " + f.format(amount/exchangeRate) + toCode);   
+        }
+        else{
+            System.out.println("GET request failed.");
+        }
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -328,6 +646,7 @@ public class ShoppingGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonAdd;
     private javax.swing.JButton jButtonAddT;
     private javax.swing.JButton jButtonBeauty;
@@ -337,6 +656,7 @@ public class ShoppingGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRate;
     private javax.swing.JButton jButtonRateT;
     private javax.swing.JButton jButtonTech;
+    private javax.swing.JLabel jLabelChgLg;
     private javax.swing.JLabel jLabelItemsB;
     private javax.swing.JLabel jLabelItemsT;
     private javax.swing.JLabel jLabelStore;
@@ -350,6 +670,9 @@ public class ShoppingGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemAbtTech;
     private javax.swing.JMenu jMenuTech;
     private javax.swing.JPanel jPanelTech;
+    private javax.swing.JRadioButton jRadioButtonEng;
+    private javax.swing.JRadioButton jRadioButtonInd;
+    private javax.swing.JRadioButton jRadioButtonKor;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     // End of variables declaration//GEN-END:variables
