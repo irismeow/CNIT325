@@ -169,6 +169,11 @@ public class ShoppingGUI extends javax.swing.JFrame {
         });
 
         jButtonAdd.setText(bundle.getString("ShoppingGUI.jButtonAdd.text")); // NOI18N
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
 
         jButtonRate.setText(bundle.getString("ShoppingGUI.jButtonRate.text")); // NOI18N
         jButtonRate.addActionListener(new java.awt.event.ActionListener() {
@@ -198,6 +203,7 @@ public class ShoppingGUI extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jRadioButtonEng);
         jRadioButtonEng.setText(bundle.getString("ShoppingGUI.jRadioButtonEng.text")); // NOI18N
         jRadioButtonEng.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,6 +211,7 @@ public class ShoppingGUI extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jRadioButtonKor);
         jRadioButtonKor.setText(bundle.getString("ShoppingGUI.jRadioButtonKor.text")); // NOI18N
         jRadioButtonKor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +219,7 @@ public class ShoppingGUI extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jRadioButtonInd);
         jRadioButtonInd.setText(bundle.getString("ShoppingGUI.jRadioButtonInd.text")); // NOI18N
         jRadioButtonInd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,6 +244,11 @@ public class ShoppingGUI extends javax.swing.JFrame {
         jMenuHome.setText(bundle.getString("ShoppingGUI.jMenuHome.text")); // NOI18N
 
         jMenuItemAbtHome.setText(bundle.getString("ShoppingGUI.jMenuItemAbtHome.text")); // NOI18N
+        jMenuItemAbtHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAbtHomeActionPerformed(evt);
+            }
+        });
         jMenuHome.add(jMenuItemAbtHome);
 
         jMenuBar1.add(jMenuHome);
@@ -243,6 +256,11 @@ public class ShoppingGUI extends javax.swing.JFrame {
         jMenuBeauty.setText(bundle.getString("ShoppingGUI.jMenuBeauty.text")); // NOI18N
 
         jMenuItemAbtBeauty.setText(bundle.getString("ShoppingGUI.jMenuItemAbtBeauty.text")); // NOI18N
+        jMenuItemAbtBeauty.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAbtBeautyActionPerformed(evt);
+            }
+        });
         jMenuBeauty.add(jMenuItemAbtBeauty);
 
         jMenuBar1.add(jMenuBeauty);
@@ -323,6 +341,7 @@ public class ShoppingGUI extends javax.swing.JFrame {
 
     private void jMenuItemAbtTechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAbtTechActionPerformed
         // TODO add your handling code here:
+        javax.swing.JOptionPane.showMessageDialog(jMenuItemAbtTech,"Please navigate to our store Techie Tues for techie items!");
     }//GEN-LAST:event_jMenuItemAbtTechActionPerformed
 
     private void jButtonTechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTechActionPerformed
@@ -483,10 +502,10 @@ public class ShoppingGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRateActionPerformed
 
     private void groupButton(){
-        ButtonGroup bg1 = new ButtonGroup();
-        bg1.add(jRadioButtonEng);
-        bg1.add(jRadioButtonKor);
-        bg1.add(jRadioButtonInd);
+        ButtonGroup buttonGroup1 = new ButtonGroup();
+        buttonGroup1.add(jRadioButtonEng);
+        buttonGroup1.add(jRadioButtonKor);
+        buttonGroup1.add(jRadioButtonInd);
     }
     
     private void jRadioButtonKorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonKorActionPerformed
@@ -576,6 +595,22 @@ public class ShoppingGUI extends javax.swing.JFrame {
         jMenuItemAbtHome.setText(resourceBundleUS.getString("ShoppingGUI.jMenuItemAbtHome.text"));
         jMenuItemAbtTech.setText(resourceBundleUS.getString("ShoppingGUI.jMenuItemAbtTech.text"));
     }//GEN-LAST:event_jRadioButtonEngActionPerformed
+
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        // TODO add your handling code here:
+        javax.swing.JOptionPane.showMessageDialog(jButtonAdd, "Item Added!");
+       // System.out.println("Item added!");
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jMenuItemAbtHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAbtHomeActionPerformed
+        // TODO add your handling code here:
+        javax.swing.JOptionPane.showMessageDialog(jMenuItemAbtHome, "Our store DecoratIn' sells unique Home and Kitchen items.");
+    }//GEN-LAST:event_jMenuItemAbtHomeActionPerformed
+
+    private void jMenuItemAbtBeautyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAbtBeautyActionPerformed
+        // TODO add your handling code here:
+        javax.swing.JOptionPane.showMessageDialog(jMenuItemAbtBeauty, "Our store Coco Cosmetics sells the best beauty products from around the world!");
+    }//GEN-LAST:event_jMenuItemAbtBeautyActionPerformed
 
     //External Interface/API for Currency Converter
     private static void sendHttpGETRequest(String fromCode, String toCode, double amount) throws MalformedURLException, IOException{
